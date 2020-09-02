@@ -1,0 +1,180 @@
+let y = 0
+let x = 0
+let steps = 0
+let sad = 0
+let water = 0
+let happy = 0
+let counter1 = 0
+let counter = 0
+let timer = 0
+let mode = 0
+let stopwatch = 0
+/**
+ * list of functions
+ * 
+ * A
+ * 
+ * happy counter, stopwatch, timer, water tracker and  simple calimg animation
+ * 
+ * B
+ * 
+ * sad counter, timmer add, show steps, calories and Game
+ * 
+ * extras
+ * 
+ * step counter
+ */
+input.onButtonPressed(Button.A, function () {
+    if (mode == 1) {
+        happy = happy + 1
+        basic.showNumber(happy)
+        basic.pause(1000)
+        basic.showLeds(`
+            . . . . .
+            . # . # .
+            . . . . .
+            # . . . #
+            . # # # .
+            `)
+        basic.pause(1000)
+        basic.showString("happy", 50)
+basic.pause(1000)
+        basic.clearScreen()
+    } else if (mode == 2) {
+        basic.showString("stopwatch", 65)
+basic.showNumber(3)
+        basic.pause(900)
+        basic.showNumber(2)
+        basic.pause(900)
+        basic.showNumber(1)
+        basic.pause(900)
+        basic.showString("GO", 65)
+while (mode == 2) {
+            if (stopwatch <= 9) {
+                basic.showNumber(stopwatch)
+                basic.pause(1000)
+            } else if (stopwatch >= 10) {
+                basic.showNumber(stopwatch, 55)
+basic.pause(800)
+            }
+            // this is a simple stopwatch (not fully acurate)
+            stopwatch = stopwatch + 1
+        }
+    } else if (mode == 3) {
+        basic.showString("timer", 50)
+basic.showNumber(timer)
+        basic.pause(timer * 60000)
+        basic.showString("DONE")
+        while (mode == 3) {
+            // this timer goes for X amount of minnets (ajusted in function B)
+            music.playTone(262, music.beat(BeatFraction.Whole))
+        }
+    } else if (mode == 4) {
+        // this shows the name if the funcion being used
+        if (counter1 == 1) {
+            basic.showString("water tracker", 50)
+counter1 = counter1 + 1
+        } else {
+            water = water + 1
+            basic.showNumber(water)
+        }
+        if (water == 6) {
+            basic.showIcon(IconNames.Happy)
+            basic.pause(1000)
+            // this shows the number of glasses of water that have been entered and gives a smiley face when the daily goal (6) is reached
+            basic.clearScreen()
+        }
+    } else if (mode == 5) {
+        // simpl checkers animation
+        basic.showString("animation", 50)
+while (mode == 5) {
+            basic.showAnimation(`
+# . # . # . # . # . 
+. # . # . # . # . # 
+# . # . # . # . # . 
+. # . # . # . # . # 
+# . # . # . # . # . 
+`, 500)
+        }
+    }
+
+      else if (mode === 6) {
+          basic.showString("functions", 50)
+          basic.showString("happy counter, stopwatch, timer, water tracker and animation", 70)
+      }
+})
+input.onButtonPressed(Button.AB, function () {
+    if (mode < 6) {
+        mode = mode + 1
+        basic.showNumber(mode)
+        basic.pause(250)
+        basic.clearScreen()
+        counter = 1
+    } else {
+        mode = 1
+        basic.showNumber(mode)
+        basic.pause(250)
+        basic.clearScreen()
+        counter = 1
+    }
+})
+input.onButtonPressed(Button.B, function () {
+    if (mode == 1) {
+        sad = sad + 1
+        basic.showNumber(sad)
+        basic.pause(1000)
+        basic.showLeds(`
+            . . . . .
+            . # . # .
+            . . . . .
+            # . . . #
+            . # # # .
+            `)
+        basic.pause(1000)
+        basic.showString("Sad", 50)
+basic.pause(1000)
+        basic.clearScreen()
+    } else if (mode == 2) {
+        if (counter == 1) {
+            basic.showString("timer +1", 50)
+timer = timer + 1
+            counter = counter + 1
+        } else {
+            timer = timer + 1
+        }
+    } else if (mode == 3) {
+        basic.showString("steps", 50)
+basic.showNumber(steps * 2)
+    } else if (mode == 4) {
+        basic.showString("calories", 50)
+basic.showNumber(steps / 30.3)
+    } else if (mode == 5) {
+        if (counter == 1) {
+            basic.showString("game", 50)
+counter = counter + 1
+        } else {
+            if (x < 6) {
+                led.plot(x, y)
+                x = x + 1
+            }
+            if (x == 5) {
+                led.plot(x, y)
+                y = y + 1
+                x = 0
+            }
+            if (y === 5) {
+                y = 0
+                x = 0
+                basic.clearScreen()
+                led.plot(x, y)
+            }
+        }
+    }
+    else if (mode === 6) {
+        basic.showString("functions", 50)
+        basic.showString("sad counter, timmer add, show steps, calories and Game", 70)
+    }
+})
+input.onGesture(Gesture.Shake, function () {
+    steps = steps + 1
+})
